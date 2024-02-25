@@ -1,0 +1,39 @@
+import { Component, OnInit } from '@angular/core';
+import { User } from '../login/login.component';
+import { CurrentUserService } from '../current-user.service';
+import { CommonModule, NgIf,NgFor } from '@angular/common';
+
+@Component({
+  selector: 'app-admin-users',
+  standalone: true,
+  imports: [CommonModule,NgIf,NgFor],
+  templateUrl: './admin-users.component.html',
+  styleUrl: './admin-users.component.css'
+})
+export class AdminUsersComponent implements OnInit{
+  user: User;
+  constructor(private currentUserService: CurrentUserService) {
+    this.user = this.currentUserService.getCurrentUser();
+  }
+  dummyUsers: User[] = [
+    new User("John", "Doe", "username1", "password1", false),
+    new User("Jane", "Doe", "username2", "password2", false),
+    new User("Admin", "Admin", "admin", "admin123", true),
+    new User("Jane", "Doe", "username2", "password2", false),
+    new User("Admin", "Admin", "admin", "admin123", true),
+    new User("Jane", "Doe", "username2", "password2", false),
+    new User("Admin", "Admin", "admin", "admin123", true)
+  ];
+  ngOnInit(): void {
+    this.user = this.currentUserService.getCurrentUser();
+  }
+  addUser(){
+    console.log("Adding user")
+  }
+  editUser(user:any){
+    console.log(user.name)
+  }
+  deleteUser(user: any){
+    console.log(user.name)
+  }
+}
