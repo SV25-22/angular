@@ -1,6 +1,8 @@
 <app-admin-nav-bar></app-admin-nav-bar>
 
-<table class="table table-striped" style="margin-top: 20px;"> <!-- Adjust margin-top for positioning -->
+
+<div style="margin: 20px;">
+  <table class="table table-striped" style="margin-top: 20px;"> <!-- Adjust margin-top for positioning -->
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -12,22 +14,32 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let user of dummyUsers; let i = index">
+      <ng-container *ngFor="let user of getUsersArray(); let i = index">
         <tr>
           <th scope="row">{{ i + 1 }}</th>
           <td>{{ user.name }}</td>
           <td>{{ user.surname }}</td>
           <td>{{ user.username }}</td>
-          <td>{{ user.isAdmin ? 'Yes' : 'No' }}</td>
+          <td>{{ user.admin ? 'Yes' : 'No' }}</td>
           <td>
-            <span (click)="addUser()" style="margin-right: 10px;"><i class="fas fa-plus"></i></span> <!-- Icon for adding -->
-            <span (click)="editUser(user)" style="margin-right: 10px;"><i class="fas fa-edit"></i></span> <!-- Icon for editing -->
+            <span (click)="openEditUserModal(user, editUserModal,user.username)" style="margin-right: 10px;"><i class="fas fa-edit"></i></span> <!-- Icon for editing -->
             <span (click)="deleteUser(user,confirmationModal)"><i class="fas fa-trash"></i></span> <!-- Icon for deleting -->
           </td>
         </tr>
       </ng-container>
     </tbody>
   </table>
+</div>
+
+  <div class="container" style="margin-top: 20px;margin-right: 20px;">
+    <div class="row justify-content-end">
+      <div class="col-12 col-md-auto mb-3"> <!-- Align to the right -->
+        <button class="btn btn-primary" (click)="openAddUserModal(addUserModal)">
+           Add User  <i class="fa-solid fa-user-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
 
   <ng-template #confirmationModal let-modal>
     <div class="modal-header">
@@ -39,6 +51,72 @@
     <div class="modal-footer">
       <button type="button" class="btn btn-danger" (click)="modal.close()">Yes</button>
       <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">No</button>
+    </div>
+  </ng-template>
+
+  
+  <ng-template #addUserModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Add User</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group mb-3">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="userToAdd.name">
+      </div>
+      <div class="form-group mb-3">
+        <label for="surname">Surname</label>
+        <input type="text" class="form-control" id="surname" [(ngModel)]="userToAdd.surname">
+      </div>
+      <div class="form-group mb-3">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" [(ngModel)]="userToAdd.username">
+      </div>
+      <div class="form-group mb-3">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" [(ngModel)]="userToAdd.password">
+      </div>
+      <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="admin" [(ngModel)]="userToAdd.admin">
+        <label class="form-check-label" for="isAdmin">Admin role</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modal.close()">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    </div>
+  </ng-template>
+  
+
+  <ng-template #editUserModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Edit User</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group mb-3">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="userToEdit.name">
+      </div>
+      <div class="form-group mb-3">
+        <label for="surname">Surname</label>
+        <input type="text" class="form-control" id="surname" [(ngModel)]="userToEdit.surname">
+      </div>
+      <div class="form-group mb-3">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" [(ngModel)]="userToEdit.username">
+      </div>
+      <div class="form-group mb-3">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" [(ngModel)]="userToEdit.password">
+      </div>
+      <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="admin" [(ngModel)]="userToEdit.admin">
+        <label class="form-check-label" for="isAdmin">Admin role</label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modal.close()">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
     </div>
   </ng-template>
   

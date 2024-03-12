@@ -3,20 +3,21 @@ import { CommonModule, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { CurrentUserService } from '../current-user.service';
+import { LoginUserService } from '../login-user.service';
 
 export class User {
   name: string;
   surname: string;
   username: string;
   password: string;
-  isAdmin: boolean;
+  admin: boolean;
 
-  constructor(name: string, surname: string, username: string, password: string, isAdmin: boolean) {
+  constructor(name: string = "", surname: string = "", username: string = "", password: string = "", admin: boolean = false) {
     this.name = name;
     this.surname = surname;
     this.username = username;
     this.password = password;
-    this.isAdmin = isAdmin;
+    this.admin = admin;
   }
 }
 
@@ -25,7 +26,7 @@ export class User {
   standalone: true,
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
-  imports: [RouterOutlet,FormsModule,CommonModule,NgIf],
+  imports: [RouterOutlet,FormsModule,CommonModule],
 
 })
 export class LoginComponent {
@@ -34,39 +35,40 @@ export class LoginComponent {
   username: string = "";
   password: string = "";
   invalidLogin: boolean = false;
-  dummyValues: Map<string, User> = new Map<string, User>();
 
-  constructor(private router: Router, private currentUserService: CurrentUserService) {
+
+  constructor(private router: Router, private currentUserService: CurrentUserService, private loginUserService: LoginUserService) {
     this.username = "";
     this.password = "";
     this.invalidLogin = false;
-    const user1 = new User("John", "Doe", "username1", "password1", false);
-    const user2 = new User("Jane", "Doe", "username2", "password2", false);
-    const adminUser = new User("Admin", "Admin", "admin", "admin123", true);
-
-    this.dummyValues.set(user1.username, user1);
-    this.dummyValues.set(user2.username, user2);
-    this.dummyValues.set(adminUser.username, adminUser);
   }
 
   login(){
-    console.log(this.username);
-    console.log(this.password);
-    console.log(this.invalidLogin);
-    var user = this.dummyValues.get(this.username);
-    if (this.dummyValues.has(this.username) && this.dummyValues.get(this.username)?.password === this.password) {
-      this.invalidLogin = false;
-      this.currentUserService.setCurrentUser(user);
-      if(user?.isAdmin){
-        console.log(user)
-        console.log("Admin logged in");
-        this.router.navigate(['/admin/users']);
-      }else{
-        console.log("user logged in") //TODO
+
+
+    this.loginUserService.getUser(this.username,this.password).subscribe({
+      next: (data) => {
+        console.log(data);
+        if(data === null){
+          this.invalidLogin = true;
+        }else{
+          this.invalidLogin = false;
+          this.currentUserService.setCurrentUser(data);
+          if(data?.admin){
+            console.log(data)
+            console.log("Admin logged in");
+            this.router.navigate(['/admin/users']);
+          }else{
+            console.log("user logged in") //TODO
+          }
+        }
+      },
+      error: (error) => {
+        console.error(error); // Handle any errors here
+        this.invalidLogin = true;
       }
-    } else {
-      this.invalidLogin = true;
-    }
+    });
+
 
   }
 }

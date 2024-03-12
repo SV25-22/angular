@@ -1,22 +1,26 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Home</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/admin/users']">Users</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/admin/users']">Templates</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [routerLink]="['/admin/users']">Jobs</a>
-          </li>
-        </ul>
-      </div>
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Home</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/users']">Users</a>
+        </li>
+        <li class="nav-item" ngbDropdown display="dynamic" placement="bottom-end">
+          <a class="nav-link" tabindex="0" ngbDropdownToggle id="navbarDropdown3" role="button"> Templates </a>
+          <div ngbDropdownMenu aria-labelledby="navbarDropdown3" class="dropdown-menu">
+            <a class="dropdown-item" [routerLink]="['/admin/addTemplate']">Add Template</a>
+            <a class="dropdown-item" [routerLink]="['/admin/allTemplates']">All Templates</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/admin/jobs']">Jobs</a>
+        </li>
+
+      </ul>
     </div>
-  </nav>
-  
+  </div>
+</nav>
