@@ -24,8 +24,8 @@ public class UserController {
 	public List<User> getAllUsers(){
 		return userService.getAllUsers();
 	}
-	@GetMapping("/users/{id}")
-	public User getUser(@PathVariable("id") String username) {
+	@GetMapping("/users/{username}")
+	public User getUser(@PathVariable("username") String username) {
 		return userService.getUser(username);
 	}
 	
@@ -45,14 +45,14 @@ public class UserController {
 		user.hashPassword();
 		userService.addUser(user);
 	}
-	@PutMapping("/users/{id}")
-	public void updateUser(@RequestBody User user,@PathVariable("id") String username) {
+	@PutMapping("/users/{username}")
+	public void updateUser(@RequestBody User user,@PathVariable("username") String username) {
 		user.hashPassword();
 		userService.updateUser(username, user);
 	}
 	
-	@DeleteMapping("/users/{id}")
-	public void deleteUser(@PathVariable("id") String id) {
-		userService.deleteUser(id);
+	@DeleteMapping("/users/{username}")
+	public void deleteUser(@PathVariable("username") String username) {
+		userService.deleteUser(username);
 	}
 }

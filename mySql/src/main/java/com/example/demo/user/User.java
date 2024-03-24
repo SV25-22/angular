@@ -4,6 +4,8 @@ package com.example.demo.user;
 import org.mindrot.jbcrypt.BCrypt;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -12,8 +14,11 @@ import jakarta.persistence.Table;
 @Table(name = "users")
 public class User {
 	@Id
-	private String username;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	
+	
+	private String username;
 	private String name;
 	private String surname;
 	private String password;
@@ -32,6 +37,14 @@ public class User {
 		this.surname = surname;
 		this.password = BCrypt.hashpw(password, BCrypt.gensalt());
 		this.isAdmin = isAdmin;
+	}
+	
+	public void updateValues(User user) {
+		this.username = user.getUsername();
+		this.name = user.getName();
+		this.surname = user.getSurname();
+		this.password = user.getPassword();
+		this.isAdmin = user.isAdmin();
 	}
 	public boolean checkPassword(String password) {
 		return BCrypt.checkpw(password, this.password);

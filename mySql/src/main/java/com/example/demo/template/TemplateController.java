@@ -32,20 +32,20 @@ public class TemplateController {
 	public List<Template> getAllTemplates(){
 		return templateService.getAllTemplates();
 	}
-	@GetMapping("/templates/{id}")
-	public Template getTemplate(@PathVariable("id") String id) {
-		return templateService.getTemplate(id);
+	@GetMapping("/templates/{name}")
+	public List<Template> getTemplate(@PathVariable("name") String name) {
+		return templateService.getTemplate(name);
 	}
 	@PostMapping("/templates")
 	public void addTemplate(@RequestBody Template template) {
 		templateService.addTemplate(template);
 	}
-	@PutMapping("/templates/{id}")
-	public void updateTemplate(@RequestBody Template tempalte,@PathVariable("id") String id) {
-		templateService.updateTemplate(id, tempalte);
+	@PutMapping("/templates/{name}")
+	public void updateTemplate(@RequestBody Template template,@PathVariable("name") String name) {
+		templateService.updateTemplate(name, template);
 	}
-	@DeleteMapping("/templates/{id}")
-	public void deleteTemplate(@PathVariable("id") String id) {
-		templateService.deleteTemplate(id);
+	@DeleteMapping("/templates/{name}")
+	public void deleteTemplate(@PathVariable("name") String name) {
+		templateService.deleteTemplate(name);
 	}
 }

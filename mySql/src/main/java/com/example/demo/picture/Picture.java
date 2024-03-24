@@ -6,22 +6,37 @@ import com.example.demo.input.Input;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-@Embeddable
+import jakarta.persistence.Table;
+@Entity
+@Table(name = "pictures")
 public class Picture {
-    //@ElementCollection
-	//private List<Input> inputs;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+	@JoinColumn(name = "picture_inputs")
+	private List<Input> inputs;
 	private boolean done;
 	private String relPath;
-	/*
-	public List<Input> getInputs() {
+	public void updateValues(Picture picture) {
+		this.inputs = picture.getInputs();
+		this.done = picture.isDone();
+		this.relPath = picture.getRelPath();
+	}
+
+	public List<Input> getInputs(){
 		return inputs;
 	}
 	public void setInputs(List<Input> inputs) {
 		this.inputs = inputs;
 	}
-	 */
-
 	public boolean isDone() {
 		return done;
 	}

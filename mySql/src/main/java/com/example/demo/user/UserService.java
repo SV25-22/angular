@@ -22,30 +22,36 @@ public class UserService {
 	public void addUser(User user) {
 		userRepository.save(user);
 	}
-	public User getUser(String id) {
-		if(id == null) {
+	public User getUser(String username) {
+		if(username == null) {
 			return null;
 		}
-		if(!userRepository.existsById(id)){
+		if(!userRepository.existsByUsername(username)){
 			return null;
 		}
 	
-		return userRepository.findById(id).orElse(null);
+		return userRepository.findByUsername(username);
 	}
-	public void updateUser(String id, User user) {
-		userRepository.save(user);
+	public void updateUser(String username, User user) {
+		if(userRepository.existsByUsername(username)) {
+			User foundUser = userRepository.findByUsername(username);
+			foundUser.updateValues(user);
+			userRepository.save(foundUser);
+		}else {
+			return;
+		}
 	}
-	public void deleteUser(String id) {
-		userRepository.deleteById(id);
+	public void deleteUser(String username) {
+		userRepository.deleteByUsername(username);
 	}
 	public User loginUser(LoginData data) {
 		if(data == null || data.getUsername() == null) {
 			return null;
 		}
-		if(!userRepository.existsById(data.getUsername())) {
+		if(!userRepository.existsByUsername(data.getUsername())) {
 			return null;
 		}
-		User user = userRepository.findById(data.getUsername()).orElse(null);
+		User user = userRepository.findByUsername(data.getUsername());
 		if(user == null) {
 			return null;
 		}
