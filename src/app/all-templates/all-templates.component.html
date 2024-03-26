@@ -1,2 +1,74 @@
 <app-admin-nav-bar></app-admin-nav-bar>
 <p>all-templates works!</p>
+<div style="margin: 20px;">
+    <table class="table table-striped" style="margin-top: 20px;"> <!-- Adjust margin-top for positioning -->
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Inputs</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let template of this.allTemplates; let i = index">
+          <tr>
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ template.name }}</td>
+            <td>
+                TODO, opens modal with table to see the inputs
+                <span (click)="openViewInputsModal(viewInputsModal, template.inputs)" style="margin-right: 10px;"><i class="fa-solid fa-eye"></i></span> <!-- Icon for editing -->
+            </td>
+            <td>
+                <span (click)="openEditTemplateModal(editTemplateModal, template)" style="margin-right: 10px;"><i class="fas fa-edit"></i></span> <!-- Icon for editing -->
+              <span (click)="openDeleteTemplateModal(deleteTemplateModal,template)"><i class="fas fa-trash"></i></span> <!-- Icon for deleting -->
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  TODO edit, view, delete modals
+  <div class="container" style="margin-top: 20px;margin-right: 20px;">
+    <div class="row justify-content-end">
+      <div class="col-12 col-md-auto mb-3"> <!-- Align to the right -->
+        <button class="btn btn-primary" style="margin-right: 20px;" >
+           Add Template TODO REDIRECT (click) something  <i class="fa-solid fa-circle-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #deleteTemplateModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirm Template Deletion</h4>
+    </div>
+    <div class="modal-body">
+      Confirm template deletion.
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.close()">Confirm</button>
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    </div>
+  </ng-template>
+
+
+  <ng-template #editTemplateModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Edit Template</h4>
+    </div>
+    <div class="modal-body">
+      <div class="form-group mb-3">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="label" [(ngModel)]="inputToAdd.label">
+        TODO CHANGE ngmodel [(name)]
+      </div>
+
+
+
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="modal.close()">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Cancel</button>
+    </div>
+  </ng-template>
